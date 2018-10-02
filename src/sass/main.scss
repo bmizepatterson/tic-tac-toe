@@ -21,6 +21,7 @@ $mark-size:  50px;
     font-size: 70px;
     font-weight: 200;
     cursor: default;
+    color: $gray-500;
 
     div {
         height: $cell-size;
@@ -36,6 +37,9 @@ $mark-size:  50px;
         font-size: $font-size-lg;
         line-height: normal;
         height: 55px;
+    }
+    .current-mark {
+        color: $primary;
     }
     // Undo some bootstrap
     .row, .col {

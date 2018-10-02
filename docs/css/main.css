@@ -8619,6 +8619,7 @@ h3 {
   font-size: 70px;
   font-weight: 200;
   cursor: default;
+  color: #adb5bd;
 }
 .board div {
   height: 100px;
@@ -8634,6 +8635,9 @@ h3 {
   font-size: 1.25rem;
   line-height: normal;
   height: 55px;
+}
+.board .current-mark {
+  color: #007bff;
 }
 .board .row, .board .col {
   margin: 0;

@@ -13,6 +13,9 @@ let newGameButton = null;
 // The game message area
 let gameMessage = null;
 
+// Keep track of when the game has ended so users can't continue to click
+let gameIsOver = false;
+
 // Turn tracker. X always goes first. Save constants as the Unicode chars
 // that will be displayed. For reference, the HTML entities are &times;
 // for X and &#9675; for X.
@@ -44,10 +47,15 @@ function init() {
 }
 
 function processClick(event) {
+    // Reset styling on the last spot
+    if (currentSpot) currentSpot.classList.remove('current-mark');
+
+    // Update the current spot to the spot that was just clicked.
     currentSpot = event.target;
 
-    // Don't dop anything if a mark if this spot has already been taken.
-    if (isOccupied(currentSpot)) return;
+    // Don't do anything if there's already a mark in this spot,
+    // or if the game is over.
+    if (isOccupied(currentSpot) || gameIsOver) return;
 
     // Draw the mark
     drawMark();
@@ -66,6 +74,7 @@ function processClick(event) {
 
 function drawMark() {
     currentSpot.innerHTML = currentTurn;
+    currentSpot.classList.add('current-mark');
 }
 
 function toggleTurn() {
@@ -80,7 +89,7 @@ function resetBoard() {
     // Erase board
     for (let spot of spots) {
         spot.innerHTML = '';
-        spot.classList.remove('bg-success');
+        spot.classList.remove('bg-success', 'text-light');
     }
 
     // Reset game message area
@@ -206,12 +215,14 @@ function isOccupied(spot) {
 
 function endGame() {
     // Don't reset the board until the "new game" button is clicked.
+    gameIsOver = true;
     resetButton.style.display = 'none';
     newGameButton.style.display = 'inline-block';
 }
 
 function startNewGame() {
     resetBoard();
+    gameIsOver = false;
     resetButton.style.display = 'inline-block';
     newGameButton.style.display = 'none';
 }

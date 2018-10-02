@@ -9,7 +9,9 @@ var resetButton = null; // The new game button
 
 var newGameButton = null; // The game message area
 
-var gameMessage = null; // Turn tracker. X always goes first. Save constants as the Unicode chars
+var gameMessage = null; // Keep track of when the game has ended so users can't continue to click
+
+var gameIsOver = false; // Turn tracker. X always goes first. Save constants as the Unicode chars
 // that will be displayed. For reference, the HTML entities are &times;
 // for X and &#9675; for X.
 
@@ -59,9 +61,13 @@ function init() {
 }
 
 function processClick(event) {
-  currentSpot = event.target; // Don't dop anything if a mark if this spot has already been taken.
+  // Reset styling on the last spot
+  if (currentSpot) currentSpot.classList.remove('current-mark'); // Update the current spot to the spot that was just clicked.
 
-  if (isOccupied(currentSpot)) return; // Draw the mark
+  currentSpot = event.target; // Don't do anything if there's already a mark in this spot,
+  // or if the game is over.
+
+  if (isOccupied(currentSpot) || gameIsOver) return; // Draw the mark
 
   drawMark(); // Check for win or draw
 
@@ -78,6 +84,7 @@ function processClick(event) {
 
 function drawMark() {
   currentSpot.innerHTML = currentTurn;
+  currentSpot.classList.add('current-mark');
 }
 
 function toggleTurn() {
@@ -96,7 +103,7 @@ function resetBoard() {
     for (var _iterator2 = spots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var spot = _step2.value;
       spot.innerHTML = '';
-      spot.classList.remove('bg-success');
+      spot.classList.remove('bg-success', 'text-light');
     } // Reset game message area
 
   } catch (err) {
@@ -294,12 +301,14 @@ function isOccupied(spot) {
 
 function endGame() {
   // Don't reset the board until the "new game" button is clicked.
+  gameIsOver = true;
   resetButton.style.display = 'none';
   newGameButton.style.display = 'inline-block';
 }
 
 function startNewGame() {
   resetBoard();
+  gameIsOver = false;
   resetButton.style.display = 'inline-block';
   newGameButton.style.display = 'none';
 }
