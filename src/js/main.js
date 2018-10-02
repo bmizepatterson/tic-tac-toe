@@ -4,6 +4,9 @@ let spots = null;
 // The currently active spot
 let currentSpot = null;
 
+// The "whose move" message
+let whoseMove = null;
+
 // The reset button
 let resetButton = null;
 
@@ -34,8 +37,9 @@ function init() {
     resetButton = document.getElementById('resetButton');
     newGameButton = document.getElementById('newGameButton');
 
-    // Grab the game message area
+    // Grab the message areas
     gameMessage = document.getElementById('game-message');
+    whoseMove = document.getElementById('whose-move');
 
     // Set onclick events
     for (let spot of spots) {
@@ -59,6 +63,9 @@ function processClick(event) {
     // Draw the mark
     drawMark();
 
+    // Display the reset button
+    resetButton.style.display = 'inline-block';
+
     // Check for win or draw
     if (checkForWin()) {
         endGame();
@@ -80,6 +87,8 @@ function drawMark() {
 function toggleTurn() {
     if (currentTurn === TURN_X) currentTurn = TURN_O;
     else currentTurn = TURN_X;
+
+    whoseMove.innerHTML = currentTurn + "'s move";
 }
 
 function resetBoard() {
@@ -92,7 +101,11 @@ function resetBoard() {
         spot.classList.remove('bg-success', 'text-light');
     }
 
-    // Reset game message area
+    // Hide the reset button at the start of the game
+    resetButton.style.display = 'none';
+
+    // Reset game message areas
+    whoseMove.innerHTML = currentTurn + "'s move";
     gameMessage.innerHTML = '&nbsp;';
     gameMessage.style.visibility = 'hidden';
 }
@@ -107,7 +120,7 @@ function checkForDraw() {
 }
 
 function announceDraw() {
-    gameMessage.innerHTML = 'Draw &#x2639;';
+    gameMessage.innerHTML = 'Draw. &#x1F611;';
     gameMessage.style.visibility = 'visible';
 }
 
@@ -216,6 +229,7 @@ function isOccupied(spot) {
 function endGame() {
     // Don't reset the board until the "new game" button is clicked.
     gameIsOver = true;
+    whoseMove.style.visibility = 'hidden';
     resetButton.style.display = 'none';
     newGameButton.style.display = 'inline-block';
 }
@@ -223,6 +237,6 @@ function endGame() {
 function startNewGame() {
     resetBoard();
     gameIsOver = false;
-    resetButton.style.display = 'inline-block';
+    whoseMove.style.visibility = 'visible';
     newGameButton.style.display = 'none';
 }

@@ -7,36 +7,26 @@
 // Board appearance
 $board-line: 2px solid black;
 $cell-size:  100px;
-$mark-size:  50px;
-
-
-
+$mark-size:  70px;
 
 .board {
-    margin-top: $spacer * 2;
+    margin-top: $spacer * 5;
     width: $cell-size * 3;
-    text-align: center;
-    line-height: $cell-size;
-    font-size: $mark-size;
-    font-size: 70px;
-    font-weight: 200;
-    cursor: default;
-    color: $gray-500;
 
     .spot {
+        text-align: center;
+        cursor: default;
+        color: $gray-500;
+        line-height: $cell-size;
+        font-weight: 200;
         height: $cell-size;
+        font-size: $mark-size;
     }
     .top, .middle {
         border-bottom: $board-line;
     }
     .left, .center {
         border-right: $board-line;
-    }
-    #game-message {
-        visibility: hidden;
-        font-size: $font-size-lg;
-        line-height: normal;
-        height: 55px;
     }
     .current-mark-x {
         color: $blue;
@@ -51,8 +41,17 @@ $mark-size:  50px;
     }
 }
 
+#game-message {
+    visibility: hidden;
+}
+
+#whose-move {
+    color: $gray-500;
+    font-style: italic;
+}
+
 #resetButton {
-    display: inline-block;
+    display: none;
 }
 
 #newGameButton {
