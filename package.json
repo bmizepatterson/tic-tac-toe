@@ -4,10 +4,10 @@
     "repository": " ",
     "license": "MIT",
     "scripts": {
-        "sass": "./node_modules/.bin/sass --watch src/sass/main.scss docs/css/main.css",
-        "browser-sync": "./node_modules/.bin/browser-sync start --server 'docs' --files 'docs'",
-        "babel": "./node_modules/.bin/babel src/js --out-dir docs/js --watch",
-        "copy": "./node_modules/.bin/cpx \"src/**/*.html\" docs --watch",
+        "sass": "./node_modules/.bin/sass --watch src/sass/main.scss dist/css/main.css",
+        "browser-sync": "./node_modules/.bin/browser-sync start --server 'dist' --files 'dist'",
+        "babel": "./node_modules/.bin/babel src/js --out-dir dist/js --watch",
+        "copy": "./node_modules/.bin/cpx \"src/**/*.html\" dist --watch",
         "dev": "./node_modules/.bin/concurrently \"npm run browser-sync\" \"npm run sass\" \"npm run babel\" \"npm run copy\""
     },
     "devDependencies": {
