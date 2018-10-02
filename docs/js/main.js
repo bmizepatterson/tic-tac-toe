@@ -93,6 +93,7 @@ function resetBoard() {
     for (var _iterator2 = spots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var spot = _step2.value;
       spot.innerHTML = '';
+      spot.classList.remove('bg-success');
     }
   } catch (err) {
     _didIteratorError2 = true;
@@ -111,7 +112,6 @@ function resetBoard() {
 }
 
 function checkForWin() {
-  // Function for checking just one spot
   // Check row
   var row = getRow();
 
@@ -127,16 +127,19 @@ function checkForWin() {
     highlight(col);
     return true;
   } // Check diagonals
-  // if we're on a diagonal, check the other spots on the diagonal
 
 
   if (isCenterSpot()) {
     // If we're in the center, we have to check both diagonals
-    var forwardDiagonalWin = checkSpots(getForwardDiagonal());
-    var backwardDiagonalWin = checkSpots(getBackwardDiagonal());
-    if (forwardDiagonalWin) highlight(getForwardDiagonal());
-    if (backwardDiagonalWin) highlight(getBackwardDiagonal());
-    return forwardDiagonalWin || backwardDiagonalWin;
+    if (checkSpots(getForwardDiagonal())) {
+      highlight(getForwardDiagonal());
+      return true;
+    }
+
+    if (checkSpots(getBackwardDiagonal())) {
+      highlight(getBackwardDiagonal());
+      return true;
+    }
   } else if (isOnForwardDiagonal() && checkSpots(getForwardDiagonal())) {
     highlight(getForwardDiagonal());
     return true;
@@ -194,6 +197,16 @@ function getCol() {
   return document.getElementsByClassName(rowName);
 }
 
+function getForwardDiagonal() {
+  // Returns an HTML collection of the spots in the forward diagonal
+  return document.querySelectorAll(".bottom.left, .middle.center, .top.right");
+}
+
+function getBackwardDiagonal() {
+  // Returns an HTML collection of the spots in the backward diagonal
+  return document.querySelectorAll(".bottom.right, .middle.center, .top.left");
+}
+
 function isCenterSpot() {
   return /middle center/.test(currentSpot.classList.value);
 }
@@ -206,16 +219,8 @@ function isOnBackwardDiagonal() {
   return /bottom right/.test(currentSpot.classList.value) || /middle center/.test(currentSpot.classList.value) || /top left/.test(currentSpot.classList.value);
 }
 
-function getForwardDiagonal() {
-  return document.querySelectorAll(".bottom.left, .middle.center, .top.right");
-}
-
-function getBackwardDiagonal() {
-  return document.querySelectorAll(".bottom.right, .middle.center, .top.left");
-}
-
 function highlight(spots) {
-  // highlight these spots to celebrate the win!
+  // Highlight these spots to celebrate the win!
   var _iteratorNormalCompletion4 = true;
   var _didIteratorError4 = false;
   var _iteratorError4 = undefined;
@@ -223,7 +228,7 @@ function highlight(spots) {
   try {
     for (var _iterator4 = spots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
       var spot = _step4.value;
-      spot.classList.add('bg-success');
+      spot.classList.add('bg-success', 'text-light');
     }
   } catch (err) {
     _didIteratorError4 = true;
@@ -242,6 +247,7 @@ function highlight(spots) {
 }
 
 function endGame() {
+  // Don't reset the board until the "new game" button is clicked.
   resetButton.style.display = 'none';
   newGameButton.style.display = 'inline-block';
 }

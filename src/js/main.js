@@ -75,11 +75,11 @@ function resetBoard() {
     // Erase board
     for (let spot of spots) {
         spot.innerHTML = '';
+        spot.classList.remove('bg-success');
     }
 }
 
 function checkForWin() {
-    // Function for checking just one spot
 
     // Check row
     let row = getRow();
@@ -96,17 +96,16 @@ function checkForWin() {
     }
 
     // Check diagonals
-
-    // if we're on a diagonal, check the other spots on the diagonal
     if (isCenterSpot()) {
         // If we're in the center, we have to check both diagonals
-        let forwardDiagonalWin = checkSpots(getForwardDiagonal());
-        let backwardDiagonalWin = checkSpots(getBackwardDiagonal());
-
-        if (forwardDiagonalWin) highlight(getForwardDiagonal());
-        if (backwardDiagonalWin) highlight(getBackwardDiagonal());
-
-        return (forwardDiagonalWin || backwardDiagonalWin);
+        if (checkSpots(getForwardDiagonal())) {
+            highlight(getForwardDiagonal());
+            return true;
+        }
+        if (checkSpots(getBackwardDiagonal())) {
+            highlight(getBackwardDiagonal());
+            return true;
+        }
 
     } else if (isOnForwardDiagonal() && checkSpots(getForwardDiagonal())) {
         highlight(getForwardDiagonal());
@@ -123,7 +122,6 @@ function checkForWin() {
 
 function checkSpots(spots) {
     // Check some spots to see if they all contain the current mark
-
     let win = true;
     for (let spot of spots) {
         if (spot.innerHTML != currentTurn) {
@@ -136,50 +134,51 @@ function checkSpots(spots) {
 
 function getRow() {
     // Returns an HTML collection of the spots in the current row
-
     let rowName = /top|middle|bottom/.exec(currentSpot.classList.value)[0];
     return document.getElementsByClassName(rowName);
 }
 
 function getCol() {
     // Returns an HTML collection of the spots in the current column
-
     let rowName = /left|center|right/.exec(currentSpot.classList.value)[0];
     return document.getElementsByClassName(rowName);
 }
 
-function isCenterSpot() {
-    return /middle center/.test(currentSpot.classList.value);
-}
-
-function isOnForwardDiagonal() {
-    return /bottom left/.test(currentSpot.classList.value) ||
-           /middle center/.test(currentSpot.classList.value) ||
-           /top right/.test(currentSpot.classList.value);
-}
-
-function isOnBackwardDiagonal() {
-    return /bottom right/.test(currentSpot.classList.value) ||
-           /middle center/.test(currentSpot.classList.value) ||
-           /top left/.test(currentSpot.classList.value);
-}
-
 function getForwardDiagonal() {
+    // Returns an HTML collection of the spots in the forward diagonal
     return document.querySelectorAll(".bottom.left, .middle.center, .top.right");
 }
 
 function getBackwardDiagonal() {
+    // Returns an HTML collection of the spots in the backward diagonal
     return document.querySelectorAll(".bottom.right, .middle.center, .top.left");
 }
 
+function isCenterSpot() {
+    return (/middle center/.test(currentSpot.classList.value));
+}
+
+function isOnForwardDiagonal() {
+    return (/bottom left/.test(currentSpot.classList.value) ||
+            /middle center/.test(currentSpot.classList.value) ||
+            /top right/.test(currentSpot.classList.value));
+}
+
+function isOnBackwardDiagonal() {
+    return (/bottom right/.test(currentSpot.classList.value) ||
+            /middle center/.test(currentSpot.classList.value) ||
+            /top left/.test(currentSpot.classList.value));
+}
+
 function highlight(spots) {
-    // highlight these spots to celebrate the win!
+    // Highlight these spots to celebrate the win!
     for (let spot of spots) {
-        spot.classList.add('bg-success');
+        spot.classList.add('bg-success', 'text-light');
     }
 }
 
 function endGame() {
+    // Don't reset the board until the "new game" button is clicked.
     resetButton.style.display = 'none';
     newGameButton.style.display = 'inline-block';
 }
