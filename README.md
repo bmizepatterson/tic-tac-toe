@@ -14,4 +14,6 @@ Edit assets **only** in the `src/` directory. Run `npm run dev` to compile asset
 
 ## Publishing instructions
 
-Assets compile to the `dist/` directory.
+1. Test project with express by running `node index.js` and checking out [localhost:3000](localhost:3000).
+2. If all looks well, `git push heroku master`.
+3. View app on heroku at [https://tic-tac-toe-bp.herokuapp.com/](https://tic-tac-toe-bp.herokuapp.com/).
