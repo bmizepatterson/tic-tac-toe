@@ -12,11 +12,12 @@ var newGameButton = null; // The game message area
 var gameMessage = null; // Keep track of when the game has ended so users can't continue to click
 
 var gameIsOver = false; // Turn tracker. X always goes first. Save constants as the Unicode chars
-// that will be displayed. For reference, the HTML entities are &times;
-// for X and &#9675; for X.
+// that will be displayed, to make comparison easy.
 
-var TURN_X = '×';
-var TURN_O = '○';
+var TURN_X = '×'; // HTML entity &times;
+
+var TURN_O = '○'; // HTML entity &#9675;
+
 var currentTurn = TURN_X;
 
 document.onreadystatechange = function () {
@@ -62,7 +63,7 @@ function init() {
 
 function processClick(event) {
   // Reset styling on the last spot
-  if (currentSpot) currentSpot.classList.remove('current-mark'); // Update the current spot to the spot that was just clicked.
+  if (currentSpot) currentSpot.classList.remove('current-mark-x', 'current-mark-o'); // Update the current spot to the spot that was just clicked.
 
   currentSpot = event.target; // Don't do anything if there's already a mark in this spot,
   // or if the game is over.
@@ -84,7 +85,8 @@ function processClick(event) {
 
 function drawMark() {
   currentSpot.innerHTML = currentTurn;
-  currentSpot.classList.add('current-mark');
+  var className = currentTurn == TURN_X ? "current-mark-x" : "current-mark-o";
+  currentSpot.classList.add(className);
 }
 
 function toggleTurn() {

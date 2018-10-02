@@ -8621,7 +8621,7 @@ h3 {
   cursor: default;
   color: #adb5bd;
 }
-.board div {
+.board .spot {
   height: 100px;
 }
 .board .top, .board .middle {
@@ -8636,8 +8636,11 @@ h3 {
   line-height: normal;
   height: 55px;
 }
-.board .current-mark {
+.board .current-mark-x {
   color: #007bff;
+}
+.board .current-mark-o {
+  color: #dc3545;
 }
 .board .row, .board .col {
   margin: 0;

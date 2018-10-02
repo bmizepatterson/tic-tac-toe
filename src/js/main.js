@@ -17,10 +17,9 @@ let gameMessage = null;
 let gameIsOver = false;
 
 // Turn tracker. X always goes first. Save constants as the Unicode chars
-// that will be displayed. For reference, the HTML entities are &times;
-// for X and &#9675; for X.
-const TURN_X = '×';
-const TURN_O = '○';
+// that will be displayed, to make comparison easy.
+const TURN_X = '×'; // HTML entity &times;
+const TURN_O = '○'; // HTML entity &#9675;
 let currentTurn = TURN_X;
 
 document.onreadystatechange = function() {
@@ -48,7 +47,7 @@ function init() {
 
 function processClick(event) {
     // Reset styling on the last spot
-    if (currentSpot) currentSpot.classList.remove('current-mark');
+    if (currentSpot) currentSpot.classList.remove('current-mark-x', 'current-mark-o');
 
     // Update the current spot to the spot that was just clicked.
     currentSpot = event.target;
@@ -74,7 +73,8 @@ function processClick(event) {
 
 function drawMark() {
     currentSpot.innerHTML = currentTurn;
-    currentSpot.classList.add('current-mark');
+    let className = currentTurn == TURN_X ? "current-mark-x" : "current-mark-o";
+    currentSpot.classList.add(className);
 }
 
 function toggleTurn() {

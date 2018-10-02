@@ -23,7 +23,7 @@ $mark-size:  50px;
     cursor: default;
     color: $gray-500;
 
-    div {
+    .spot {
         height: $cell-size;
     }
     .top, .middle {
@@ -38,8 +38,11 @@ $mark-size:  50px;
         line-height: normal;
         height: 55px;
     }
-    .current-mark {
-        color: $primary;
+    .current-mark-x {
+        color: $blue;
+    }
+    .current-mark-o {
+        color: $red;
     }
     // Undo some bootstrap
     .row, .col {
