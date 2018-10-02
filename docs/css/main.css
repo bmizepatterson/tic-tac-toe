@@ -8611,13 +8611,38 @@ h3 {
   }
 }
 .board {
-  max-width: 500px;
+  margin-top: 2rem;
+  width: 300px;
+  text-align: center;
+  line-height: 100px;
+  font-size: 50px;
+  font-size: 70px;
+  font-weight: 200;
+  cursor: default;
 }
 .board div {
-  height: 200px;
-  text-align: center;
-  line-height: 200px;
-  border: 1px solid black;
+  height: 100px;
+}
+.board .row, .board .col {
+  margin: 0;
+  padding: 0;
+}
+.board .top, .board .middle {
+  border-bottom: 2px solid black;
+}
+.board .left, .board .center {
+  border-right: 2px solid black;
+}
+.board .highlighted {
+  background-color: "red";
+}
+
+#resetButton {
+  display: inline-block;
+}
+
+#newGameButton {
+  display: none;
 }
 
 /*# sourceMappingURL=main.css.map */

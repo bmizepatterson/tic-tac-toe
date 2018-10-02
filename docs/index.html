@@ -8,24 +8,28 @@
     <title>Tic-Tac-Toe</title>
 </head>
 <body class="container">
-    <h1>Tic-Tac-Toe</h1>
 
     <div class="board mx-auto">
         <div class="row">
-            <div id="top-left" class="col">X</div>
-            <div id="top-middle" class="col">X</div>
-            <div id="top-right" class="col">X</div>
+            <div id="top-left" class="col top left spot"></div>
+            <div id="top-center" class="col top center spot"></div>
+            <div id="top-right" class="col top right spot"></div>
         </div>
         <div class="row">
-            <div id="middle-left" class="col">X</div>
-            <div id="middle-middle" class="col">X</div>
-            <div id="middle-right" class="col">X</div>
+            <div id="middle-left" class="col middle left spot"></div>
+            <div id="middle-center" class="col middle center spot"></div>
+            <div id="middle-right" class="col middle right spot"></div>
         </div>
         <div class="row">
-            <div id="bottom-left" class="col">X</div>
-            <div id="bottom-middle" class="col">X</div>
-            <div id="bottom-right" class="col">X</div>
+            <div id="bottom-left" class="col bottom left spot"></div>
+            <div id="bottom-center" class="col bottom center spot"></div>
+            <div id="bottom-right" class="col bottom right spot"></div>
         </div>
+    </div>
+
+    <div class="controls text-center mt-5">
+        <button id="resetButton" type="button" class="btn btn-primary">Start over</button>
+        <button id="newGameButton" type="button" class="btn btn-secondary">New game</button>
     </div>
 
 </body>
