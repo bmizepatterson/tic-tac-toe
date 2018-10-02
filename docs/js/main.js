@@ -111,18 +111,55 @@ function resetBoard() {
 }
 
 function checkForWin() {
+  // Function for checking just one spot
   // Check row
+  var row = getRow();
+
+  if (checkSpots(row)) {
+    highlight(row);
+    return true;
+  } // Check column
+
+
+  var col = getCol();
+
+  if (checkSpots(col)) {
+    highlight(col);
+    return true;
+  } // Check diagonals
+  // if we're on a diagonal, check the other spots on the diagonal
+
+
+  if (isCenterSpot()) {
+    // If we're in the center, we have to check both diagonals
+    var forwardDiagonalWin = checkSpots(getForwardDiagonal());
+    var backwardDiagonalWin = checkSpots(getBackwardDiagonal());
+    if (forwardDiagonalWin) highlight(getForwardDiagonal());
+    if (backwardDiagonalWin) highlight(getBackwardDiagonal());
+    return forwardDiagonalWin || backwardDiagonalWin;
+  } else if (isOnForwardDiagonal() && checkSpots(getForwardDiagonal())) {
+    highlight(getForwardDiagonal());
+    return true;
+  } else if (isOnBackwardDiagonal() && checkSpots(getBackwardDiagonal())) {
+    highlight(getBackwardDiagonal());
+    return true;
+  }
+
+  return false;
+}
+
+function checkSpots(spots) {
+  // Check some spots to see if they all contain the current mark
   var win = true;
-  var rowSpots = document.getElementsByClassName(getRow());
   var _iteratorNormalCompletion3 = true;
   var _didIteratorError3 = false;
   var _iteratorError3 = undefined;
 
   try {
-    for (var _iterator3 = rowSpots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+    for (var _iterator3 = spots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var spot = _step3.value;
 
-      if (spot.innerHTML !== currentTurn) {
+      if (spot.innerHTML != currentTurn) {
         win = false;
         break;
       }
@@ -142,28 +179,39 @@ function checkForWin() {
     }
   }
 
-  console.log('A win?', win);
-
-  if (win) {
-    highlight(rowSpots);
-    return true;
-  } // Check diagonals
-  // return win;
-
-
-  return false;
+  return win;
 }
 
 function getRow() {
-  if (currentSpot.classList.value.match(/top/)) return 'top';
-  if (currentSpot.classList.value.match(/middle/)) return 'middle';
-  if (currentSpot.classList.value.match(/bottom/)) return 'bottom';
+  // Returns an HTML collection of the spots in the current row
+  var rowName = /top|middle|bottom/.exec(currentSpot.classList.value)[0];
+  return document.getElementsByClassName(rowName);
 }
 
 function getCol() {
-  if (currentSpot.classList.value.match(/left/)) return 'left';
-  if (currentSpot.classList.value.match(/center/)) return 'center';
-  if (currentSpot.classList.value.match(/right/)) return 'right';
+  // Returns an HTML collection of the spots in the current column
+  var rowName = /left|center|right/.exec(currentSpot.classList.value)[0];
+  return document.getElementsByClassName(rowName);
+}
+
+function isCenterSpot() {
+  return /middle center/.test(currentSpot.classList.value);
+}
+
+function isOnForwardDiagonal() {
+  return /bottom left/.test(currentSpot.classList.value) || /middle center/.test(currentSpot.classList.value) || /top right/.test(currentSpot.classList.value);
+}
+
+function isOnBackwardDiagonal() {
+  return /bottom right/.test(currentSpot.classList.value) || /middle center/.test(currentSpot.classList.value) || /top left/.test(currentSpot.classList.value);
+}
+
+function getForwardDiagonal() {
+  return document.querySelectorAll(".bottom.left, .middle.center, .top.right");
+}
+
+function getBackwardDiagonal() {
+  return document.querySelectorAll(".bottom.right, .middle.center, .top.left");
 }
 
 function highlight(spots) {
@@ -175,7 +223,7 @@ function highlight(spots) {
   try {
     for (var _iterator4 = spots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
       var spot = _step4.value;
-      spot.classList.add('highlighted');
+      spot.classList.add('bg-success');
     }
   } catch (err) {
     _didIteratorError4 = true;

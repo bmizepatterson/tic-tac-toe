@@ -8633,9 +8633,6 @@ h3 {
 .board .left, .board .center {
   border-right: 2px solid black;
 }
-.board .highlighted {
-  background-color: "red";
-}
 
 #resetButton {
   display: inline-block;
