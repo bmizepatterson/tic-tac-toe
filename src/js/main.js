@@ -50,8 +50,8 @@ function init() {
 }
 
 function processClick(event) {
-    // Reset styling on the last spot
-    if (currentSpot) currentSpot.classList.remove('current-mark-x', 'current-mark-o');
+    // Copy over the last spot played
+    let oldSpot = currentSpot;
 
     // Update the current spot to the spot that was just clicked.
     currentSpot = event.target;
@@ -59,6 +59,9 @@ function processClick(event) {
     // Don't do anything if there's already a mark in this spot,
     // or if the game is over.
     if (isOccupied(currentSpot) || gameIsOver) return;
+
+    // Reset styling on the last spot
+    if (oldSpot) oldSpot.classList.remove('current-mark-x', 'current-mark-o');
 
     // Draw the mark
     drawMark();

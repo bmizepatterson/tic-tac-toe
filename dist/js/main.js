@@ -65,13 +65,15 @@ function init() {
 }
 
 function processClick(event) {
-  // Reset styling on the last spot
-  if (currentSpot) currentSpot.classList.remove('current-mark-x', 'current-mark-o'); // Update the current spot to the spot that was just clicked.
+  // Copy over the last spot played
+  var oldSpot = currentSpot; // Update the current spot to the spot that was just clicked.
 
   currentSpot = event.target; // Don't do anything if there's already a mark in this spot,
   // or if the game is over.
 
-  if (isOccupied(currentSpot) || gameIsOver) return; // Draw the mark
+  if (isOccupied(currentSpot) || gameIsOver) return; // Reset styling on the last spot
+
+  if (oldSpot) oldSpot.classList.remove('current-mark-x', 'current-mark-o'); // Draw the mark
 
   drawMark(); // Display the reset button
 
@@ -167,7 +169,7 @@ function checkForDraw() {
 }
 
 function announceDraw() {
-  gameMessage.innerHTML = '&#x1F611;';
+  gameMessage.innerHTML = 'Draw. &#x1F611;';
   gameMessage.style.visibility = 'visible';
 }
 
