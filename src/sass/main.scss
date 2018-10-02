@@ -12,7 +12,6 @@ $mark-size:  70px;
 .board {
     margin-top: $spacer * 5;
     width: $cell-size * 3;
-    position: relative;
 
     .spot {
         text-align: center;
@@ -29,24 +28,11 @@ $mark-size:  70px;
     .left, .center {
         border-right: $board-line;
     }
-
     .current-mark-x {
         color: $blue;
     }
     .current-mark-o {
         color: $red;
-    }
-    .overlay {
-        position: absolute;
-        // visibility: hidden;
-        font-size: 100px;
-        line-height: $cell-size * 3;
-        height: $cell-size * 3;
-        width: $cell-size * 3;
-        padding: 0;
-        z-index: 1;
-        text-align: center;
-        background-color: rgba(255, 255, 255, 0.7);
     }
     // Undo some bootstrap
     .row, .col {
@@ -56,7 +42,7 @@ $mark-size:  70px;
 }
 
 #game-message {
-    animation: grow 1s linear infinite;
+    visibility: hidden;
 }
 
 #whose-move {
@@ -70,13 +56,4 @@ $mark-size:  70px;
 
 #newGameButton {
     display: none;
-}
-
-@keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
-}
-@keyframes grow {
-    from {transform:scale(1);}
-    to {transform:scale(2);}
 }

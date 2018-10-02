@@ -120,7 +120,7 @@ function checkForDraw() {
 }
 
 function announceDraw() {
-    gameMessage.innerHTML = '&#x1F611;';
+    gameMessage.innerHTML = 'Draw. &#x1F611;';
     gameMessage.style.visibility = 'visible';
 }
 
