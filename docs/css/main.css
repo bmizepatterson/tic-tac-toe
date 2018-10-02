@@ -8623,15 +8623,21 @@ h3 {
 .board div {
   height: 100px;
 }
-.board .row, .board .col {
-  margin: 0;
-  padding: 0;
-}
 .board .top, .board .middle {
   border-bottom: 2px solid black;
 }
 .board .left, .board .center {
   border-right: 2px solid black;
+}
+.board #game-message {
+  visibility: hidden;
+  font-size: 1.25rem;
+  line-height: normal;
+  height: 55px;
+}
+.board .row, .board .col {
+  margin: 0;
+  padding: 0;
 }
 
 #resetButton {

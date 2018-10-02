@@ -25,16 +25,22 @@ $mark-size:  50px;
     div {
         height: $cell-size;
     }
-    // Undo some bootstrap
-    .row, .col {
-        margin: 0;
-        padding: 0;
-    }
     .top, .middle {
         border-bottom: $board-line;
     }
     .left, .center {
         border-right: $board-line;
+    }
+    #game-message {
+        visibility: hidden;
+        font-size: $font-size-lg;
+        line-height: normal;
+        height: 55px;
+    }
+    // Undo some bootstrap
+    .row, .col {
+        margin: 0;
+        padding: 0;
     }
 }
 

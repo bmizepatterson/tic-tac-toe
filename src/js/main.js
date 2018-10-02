@@ -10,6 +10,9 @@ let resetButton = null;
 // The new game button
 let newGameButton = null;
 
+// The game message area
+let gameMessage = null;
+
 // Turn tracker. X always goes first. Save constants as the Unicode chars
 // that will be displayed. For reference, the HTML entities are &times;
 // for X and &#9675; for X.
@@ -29,6 +32,9 @@ function init() {
     resetButton = document.getElementById('resetButton');
     newGameButton = document.getElementById('newGameButton');
 
+    // Grab the game message area
+    gameMessage = document.getElementById('game-message');
+
     // Set onclick events
     for (let spot of spots) {
         spot.onclick = processClick;
@@ -41,13 +47,16 @@ function processClick(event) {
     currentSpot = event.target;
 
     // Don't dop anything if a mark if this spot has already been taken.
-    if (isOccupied()) return;
+    if (isOccupied(currentSpot)) return;
 
     // Draw the mark
     drawMark();
 
-    // Check for win
+    // Check for win or draw
     if (checkForWin()) {
+        endGame();
+    } else if (checkForDraw()) {
+        announceDraw();
         endGame();
     }
 
@@ -64,10 +73,6 @@ function toggleTurn() {
     else currentTurn = TURN_X;
 }
 
-function isOccupied() {
-    return (currentSpot.innerHTML);
-}
-
 function resetBoard() {
     // Reset turn tracker
     currentTurn = TURN_X;
@@ -77,6 +82,24 @@ function resetBoard() {
         spot.innerHTML = '';
         spot.classList.remove('bg-success');
     }
+
+    // Reset game message area
+    gameMessage.innerHTML = '&nbsp;';
+    gameMessage.style.visibility = 'hidden';
+}
+
+function checkForDraw() {
+    // If every spot is full and no one has one, then we have a draw.
+    let occupiedCount = 0;
+    for (let spot of spots) {
+        if (isOccupied(spot)) occupiedCount++
+    }
+    return (occupiedCount == spots.length);
+}
+
+function announceDraw() {
+    gameMessage.innerHTML = 'Draw &#x2639;';
+    gameMessage.style.visibility = 'visible';
 }
 
 function checkForWin() {
@@ -175,6 +198,10 @@ function highlight(spots) {
     for (let spot of spots) {
         spot.classList.add('bg-success', 'text-light');
     }
+}
+
+function isOccupied(spot) {
+    return (spot.innerHTML);
 }
 
 function endGame() {
