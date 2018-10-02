@@ -1,0 +1,14 @@
+
+
+// Import default Bootstrap
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+.board {
+    max-width: 500px;
+    div {
+        height: 200px;
+        text-align:center;
+        line-height: 200px;
+        border: 1px solid black;
+    }
+}
