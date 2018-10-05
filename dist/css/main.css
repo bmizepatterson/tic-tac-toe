@@ -8657,4 +8657,11 @@ h3 {
   display: none;
 }
 
+#mode-area {
+  width: 100%;
+}
+#mode-area label {
+  width: 50%;
+}
+
 /*# sourceMappingURL=main.css.map */

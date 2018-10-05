@@ -85,8 +85,6 @@ function setMode() {
     document.getElementById('mode-twoplayer').checked = false;
     twoPlayerMode = false;
   }
-
-  console.log(twoPlayerMode);
 }
 
 function processClick(event) {

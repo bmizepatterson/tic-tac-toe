@@ -56,5 +56,11 @@ $mark-size:  70px;
 
 #newGameButton {
     display: none;
+}
 
+#mode-area {
+    width: 100%;
+    label {
+        width:50%;
+    }
 }
