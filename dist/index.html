@@ -7,9 +7,17 @@
     <script src="js/main.js"></script>
     <title>Tic-Tac-Toe</title>
 </head>
-<body class="container">
+<body>
 
     <div class="board mx-auto">
+        <div id="mode-area" class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="radio" name="modes" id="mode-twoplayer" autocomplete="off" checked> Two-Player
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="modes" id="mode-computer" autocomplete="off"> vs. Computer
+            </label>
+        </div>
         <p id="game-message" class="text-center alert alert-info">&#x1F611;</p>
         <div class="row">
             <div id="top-left" class="col top left spot"></div>
@@ -29,7 +37,7 @@
 
         <div class="controls text-center mt-3">
             <p id="whose-move" class="mb-5">&times;'s move</p>
-            <button id="resetButton" type="button" class="btn btn-primary">Start over</button>
+            <button id="resetButton" type="button" class="btn btn-secondary">Start over</button>
             <button id="newGameButton" type="button" class="btn btn-success">New game</button>
         </div>
     </div>

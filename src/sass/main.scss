@@ -10,7 +10,7 @@ $cell-size:  100px;
 $mark-size:  70px;
 
 .board {
-    margin-top: $spacer * 5;
+    margin-top: $spacer;
     width: $cell-size * 3;
 
     .spot {

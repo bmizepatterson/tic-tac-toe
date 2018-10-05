@@ -1,3 +1,7 @@
+// Game mode. If twoPlayerMode is true, then there are two human players.
+// If false, then one of the players is the computer.
+let twoPlayerMode = true;
+
 // Collection of all the spots on the board
 let spots = null;
 
@@ -30,6 +34,9 @@ document.onreadystatechange = function() {
 }
 
 function init() {
+    // Set the mode.
+    twoPlayerMode = document.getElementById('mode-twoplayer').checked;
+
     // Grab all the spots
     spots = document.getElementsByClassName('spot');
 
@@ -47,6 +54,23 @@ function init() {
     }
     resetButton.onclick = resetBoard;
     newGameButton.onclick = startNewGame;
+    document.getElementById('mode-twoplayer').onclick = setMode;
+    document.getElementById('mode-computer').onclick = setMode;
+}
+
+function setMode() {
+    this.checked = true;
+    if (this.id == 'mode-twoplayer') {
+        document.getElementById('mode-computer').parentElement.classList.remove('active');
+        document.getElementById('mode-twoplayer').parentElement.classList.add('active');
+        document.getElementById('mode-computer').checked = false;
+        twoPlayerMode = true;
+    } else {
+        document.getElementById('mode-twoplayer').parentElement.classList.remove('active');
+        document.getElementById('mode-computer').parentElement.classList.add('active');
+        document.getElementById('mode-twoplayer').checked = false;
+        twoPlayerMode = false;
+    }
 }
 
 function processClick(event) {
