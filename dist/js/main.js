@@ -2,7 +2,9 @@
 
 // Game mode. If twoPlayerMode is true, then there are two human players.
 // If false, then one of the players is the computer.
-var twoPlayerMode = true; // Collection of all the spots on the board
+var twoPlayerMode = true;
+var twoPlayerButton = null;
+var vsComputerButton = null; // Collection of all the spots on the board
 
 var spots = null; // The currently active spot
 
@@ -30,8 +32,9 @@ document.onreadystatechange = function () {
 };
 
 function init() {
-  // Set the mode.
-  twoPlayerMode = document.getElementById('mode-twoplayer').checked; // Grab all the spots
+  // Mode buttons
+  twoPlayerButton = document.getElementById('mode-twoplayer');
+  vsComputerButton = document.getElementById('mode-computer'); // Grab all the spots
 
   spots = document.getElementsByClassName('spot'); // Grab the buttons
 
@@ -67,22 +70,22 @@ function init() {
 
   resetButton.onclick = resetBoard;
   newGameButton.onclick = startNewGame;
-  document.getElementById('mode-twoplayer').onclick = setMode;
-  document.getElementById('mode-computer').onclick = setMode;
+  twoPlayerButton.onclick = setMode;
+  vsComputerButton.onclick = setMode;
 }
 
 function setMode() {
   this.checked = true;
 
   if (this.id == 'mode-twoplayer') {
-    document.getElementById('mode-computer').parentElement.classList.remove('active');
-    document.getElementById('mode-twoplayer').parentElement.classList.add('active');
-    document.getElementById('mode-computer').checked = false;
+    vsComputerButton.parentElement.classList.remove('active');
+    twoPlayerButton.parentElement.classList.add('active');
+    vsComputerButton.checked = false;
     twoPlayerMode = true;
   } else {
-    document.getElementById('mode-twoplayer').parentElement.classList.remove('active');
-    document.getElementById('mode-computer').parentElement.classList.add('active');
-    document.getElementById('mode-twoplayer').checked = false;
+    twoPlayerButton.parentElement.classList.remove('active');
+    vsComputerButton.parentElement.classList.add('active');
+    twoPlayerButton.checked = false;
     twoPlayerMode = false;
   }
 }
