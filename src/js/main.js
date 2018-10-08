@@ -293,6 +293,12 @@ function endGame() {
     whoseMove.style.visibility = 'hidden';
     resetButton.style.display = 'none';
     newGameButton.style.display = 'inline-block';
+    if (currentTurn == TURN_X) {
+        gameMessage.innerHTML = '&times; wins!';
+    } else {
+        gameMessage.innerHTML = '&#9675 wins!';
+    }
+    gameMessage.style.visibility = 'visible';
 }
 
 function startNewGame() {
