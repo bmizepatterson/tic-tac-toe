@@ -88,6 +88,8 @@ function setMode() {
     twoPlayerButton.checked = false;
     twoPlayerMode = false;
   }
+
+  resetBoard();
 }
 
 function processClick(event) {
@@ -95,25 +97,15 @@ function processClick(event) {
   var oldSpot = currentSpot; // Update the current spot to the spot that was just clicked.
 
   currentSpot = event.target; // Don't do anything if there's already a mark in this spot,
-  // or if the game is over.
+  // if it's the computer's turn, or if the game is over.
 
-  if (isOccupied(currentSpot) || gameIsOver) return; // Reset styling on the last spot
-
-  if (oldSpot) oldSpot.classList.remove('current-mark-x', 'current-mark-o'); // Draw the mark
-
-  drawMark(); // Display the reset button
-
-  resetButton.style.display = 'inline-block'; // Check for win or draw
-
-  if (checkForWin()) {
-    endGame();
-  } else if (checkForDraw()) {
-    announceDraw();
-    endGame();
-  } // Toggle the turn
+  if (isOccupied(currentSpot) || !twoPlayerMode && currentTurn == TURN_O || gameIsOver) {
+    return;
+  } // Reset styling on the last spot
 
 
-  toggleTurn();
+  if (oldSpot) oldSpot.classList.remove('current-mark-x', 'current-mark-o');
+  playSpot();
 }
 
 function drawMark() {
@@ -125,12 +117,19 @@ function drawMark() {
 function toggleTurn() {
   if (currentTurn === TURN_X) currentTurn = TURN_O;else currentTurn = TURN_X;
   whoseMove.innerHTML = currentTurn + "'s move";
+
+  if (!twoPlayerMode && currentTurn == TURN_O) {
+    computerMove();
+  }
 }
 
-function resetBoard() {
-  // Reset turn tracker
-  currentTurn = TURN_X; // Erase board
+function computerMove() {
+  console.log('The computer is thinking.'); // Reset the last played spot
 
+  currentSpot.classList.remove('current-mark-x', 'current-mark-o'); // METHOD ONE: RANDOM
+  // Gather list of available spots
+
+  var openSpots = [];
   var _iteratorNormalCompletion2 = true;
   var _didIteratorError2 = false;
   var _iteratorError2 = undefined;
@@ -138,9 +137,8 @@ function resetBoard() {
   try {
     for (var _iterator2 = spots[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       var spot = _step2.value;
-      spot.innerHTML = '';
-      spot.classList.remove('bg-success', 'text-light');
-    } // Hide the reset button at the start of the game
+      if (spot.innerHTML == '') openSpots.push(spot);
+    } // Choose one at random
 
   } catch (err) {
     _didIteratorError2 = true;
@@ -157,16 +155,30 @@ function resetBoard() {
     }
   }
 
-  resetButton.style.display = 'none'; // Reset game message areas
-
-  whoseMove.innerHTML = currentTurn + "'s move";
-  gameMessage.innerHTML = '&nbsp;';
-  gameMessage.style.visibility = 'hidden';
+  currentSpot = openSpots[Math.floor(Math.random() * openSpots.length)];
+  playSpot();
 }
 
-function checkForDraw() {
-  // If every spot is full and no one has one, then we have a draw.
-  var occupiedCount = 0;
+function playSpot() {
+  // Draw the mark
+  drawMark(); // Display the reset button
+
+  resetButton.style.display = 'inline-block'; // Check for win or draw
+
+  if (checkForWin()) {
+    endGame();
+  } else if (checkForDraw()) {
+    announceDraw();
+    endGame();
+  } else {
+    toggleTurn();
+  }
+}
+
+function resetBoard() {
+  // Reset turn tracker
+  currentTurn = TURN_X; // Erase board
+
   var _iteratorNormalCompletion3 = true;
   var _didIteratorError3 = false;
   var _iteratorError3 = undefined;
@@ -174,8 +186,10 @@ function checkForDraw() {
   try {
     for (var _iterator3 = spots[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
       var spot = _step3.value;
-      if (isOccupied(spot)) occupiedCount++;
-    }
+      spot.innerHTML = '';
+      spot.classList.remove('bg-success', 'text-light');
+    } // Hide the reset button at the start of the game
+
   } catch (err) {
     _didIteratorError3 = true;
     _iteratorError3 = err;
@@ -187,6 +201,40 @@ function checkForDraw() {
     } finally {
       if (_didIteratorError3) {
         throw _iteratorError3;
+      }
+    }
+  }
+
+  resetButton.style.display = 'none'; // Reset game message areas
+
+  whoseMove.innerHTML = currentTurn + "'s move";
+  gameMessage.innerHTML = '&nbsp;';
+  gameMessage.style.visibility = 'hidden';
+}
+
+function checkForDraw() {
+  // If every spot is full and no one has one, then we have a draw.
+  var occupiedCount = 0;
+  var _iteratorNormalCompletion4 = true;
+  var _didIteratorError4 = false;
+  var _iteratorError4 = undefined;
+
+  try {
+    for (var _iterator4 = spots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+      var spot = _step4.value;
+      if (isOccupied(spot)) occupiedCount++;
+    }
+  } catch (err) {
+    _didIteratorError4 = true;
+    _iteratorError4 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
+        _iterator4.return();
+      }
+    } finally {
+      if (_didIteratorError4) {
+        throw _iteratorError4;
       }
     }
   }
@@ -242,13 +290,13 @@ function checkForWin() {
 function checkSpots(spots) {
   // Check some spots to see if they all contain the current mark
   var win = true;
-  var _iteratorNormalCompletion4 = true;
-  var _didIteratorError4 = false;
-  var _iteratorError4 = undefined;
+  var _iteratorNormalCompletion5 = true;
+  var _didIteratorError5 = false;
+  var _iteratorError5 = undefined;
 
   try {
-    for (var _iterator4 = spots[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-      var spot = _step4.value;
+    for (var _iterator5 = spots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+      var spot = _step5.value;
 
       if (spot.innerHTML != currentTurn) {
         win = false;
@@ -256,16 +304,16 @@ function checkSpots(spots) {
       }
     }
   } catch (err) {
-    _didIteratorError4 = true;
-    _iteratorError4 = err;
+    _didIteratorError5 = true;
+    _iteratorError5 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-        _iterator4.return();
+      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
+        _iterator5.return();
       }
     } finally {
-      if (_didIteratorError4) {
-        throw _iteratorError4;
+      if (_didIteratorError5) {
+        throw _iteratorError5;
       }
     }
   }
@@ -309,26 +357,26 @@ function isOnBackwardDiagonal() {
 
 function highlight(spots) {
   // Highlight these spots to celebrate the win!
-  var _iteratorNormalCompletion5 = true;
-  var _didIteratorError5 = false;
-  var _iteratorError5 = undefined;
+  var _iteratorNormalCompletion6 = true;
+  var _didIteratorError6 = false;
+  var _iteratorError6 = undefined;
 
   try {
-    for (var _iterator5 = spots[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-      var spot = _step5.value;
+    for (var _iterator6 = spots[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+      var spot = _step6.value;
       spot.classList.add('bg-success', 'text-light');
     }
   } catch (err) {
-    _didIteratorError5 = true;
-    _iteratorError5 = err;
+    _didIteratorError6 = true;
+    _iteratorError6 = err;
   } finally {
     try {
-      if (!_iteratorNormalCompletion5 && _iterator5.return != null) {
-        _iterator5.return();
+      if (!_iteratorNormalCompletion6 && _iterator6.return != null) {
+        _iterator6.return();
       }
     } finally {
-      if (_didIteratorError5) {
-        throw _iteratorError5;
+      if (_didIteratorError6) {
+        throw _iteratorError6;
       }
     }
   }

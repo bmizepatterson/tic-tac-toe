@@ -74,6 +74,7 @@ function setMode() {
         twoPlayerButton.checked = false;
         twoPlayerMode = false;
     }
+    resetBoard();
 }
 
 function processClick(event) {
@@ -84,28 +85,18 @@ function processClick(event) {
     currentSpot = event.target;
 
     // Don't do anything if there's already a mark in this spot,
-    // or if the game is over.
-    if (isOccupied(currentSpot) || gameIsOver) return;
+    // if it's the computer's turn, or if the game is over.
+    if (isOccupied(currentSpot) ||
+        (!twoPlayerMode && currentTurn == TURN_O) ||
+        gameIsOver) {
+
+        return;
+    }
 
     // Reset styling on the last spot
     if (oldSpot) oldSpot.classList.remove('current-mark-x', 'current-mark-o');
 
-    // Draw the mark
-    drawMark();
-
-    // Display the reset button
-    resetButton.style.display = 'inline-block';
-
-    // Check for win or draw
-    if (checkForWin()) {
-        endGame();
-    } else if (checkForDraw()) {
-        announceDraw();
-        endGame();
-    }
-
-    // Toggle the turn
-    toggleTurn();
+    playSpot();
 }
 
 function drawMark() {
@@ -119,6 +110,45 @@ function toggleTurn() {
     else currentTurn = TURN_X;
 
     whoseMove.innerHTML = currentTurn + "'s move";
+    if (!twoPlayerMode && currentTurn == TURN_O) {
+        computerMove();
+    }
+}
+
+function computerMove() {
+    console.log('The computer is thinking.');
+    // Reset the last played spot
+    currentSpot.classList.remove('current-mark-x', 'current-mark-o');
+
+    // METHOD ONE: RANDOM
+
+    // Gather list of available spots
+    let openSpots = [];
+    for (let spot of spots) {
+        if (spot.innerHTML == '') openSpots.push(spot);
+    }
+
+    // Choose one at random
+    currentSpot = openSpots[Math.floor(Math.random() * openSpots.length)];
+    playSpot();
+}
+
+function playSpot() {
+    // Draw the mark
+    drawMark();
+
+    // Display the reset button
+    resetButton.style.display = 'inline-block';
+
+    // Check for win or draw
+    if (checkForWin()) {
+        endGame();
+    } else if (checkForDraw()) {
+        announceDraw();
+        endGame();
+    } else {
+        toggleTurn();
+    }
 }
 
 function resetBoard() {
