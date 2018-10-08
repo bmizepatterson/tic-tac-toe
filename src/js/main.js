@@ -110,13 +110,14 @@ function toggleTurn() {
     else currentTurn = TURN_X;
 
     whoseMove.innerHTML = currentTurn + "'s move";
+    // Is it the computer's turn?
     if (!twoPlayerMode && currentTurn == TURN_O) {
-        computerMove();
+        // Delay between 0-3 seconds to simulate thinking
+        setTimeout(computerMove, Math.floor(Math.random() * 3000));
     }
 }
 
 function computerMove() {
-    console.log('The computer is thinking.');
     // Reset the last played spot
     currentSpot.classList.remove('current-mark-x', 'current-mark-o');
 
